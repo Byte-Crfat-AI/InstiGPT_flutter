@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:instigpt/Pages/profile.dart';
-
 class LightPage extends StatefulWidget {
   @override
   _LightPageState createState() => _LightPageState();
