@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:instigpt/Pages/Dark.dart';
 import 'package:instigpt/Pages/Light.dart';
-import 'package:instigpt/Pages/profile.dart'; 
+import 'package:instigpt/Pages/profile_dark.dart'; 
+import 'package:instigpt/Pages/profile_light.dart';
 
 void main() => runApp(ChatBotApp());
 
@@ -31,7 +32,7 @@ class _ChatBotAppState extends State<ChatBotApp> {
                 isDarkMode
                     ? 'lib/assets/logo_white_grouped.png'
                     : 'lib/assets/AIC_logo_no_background.png',
-                height: isDarkMode ? 40 : 50,
+                height: isDarkMode ? 40 : 48,
               ),
               SizedBox(width: 10),
               Text(
@@ -41,6 +42,7 @@ class _ChatBotAppState extends State<ChatBotApp> {
             ],
           ),
           actions: [
+            // Profile IconButton
             Builder(
               builder: (BuildContext context) {
                 return IconButton(
@@ -48,16 +50,25 @@ class _ChatBotAppState extends State<ChatBotApp> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()), 
+                      MaterialPageRoute(builder: (context) => isDarkMode ? ProfilePage() : LightProfilePage()), 
                     );
                   },
                 );
               },
             ),
+            // FAB-style IconButton to toggle dark/light mode
+            IconButton(
+              icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+              onPressed: () {
+                setState(() {
+                  isDarkMode = !isDarkMode; // Toggle mode on click
+                });
+              },
+            ),
           ],
         ),
-        
-        // Add the Drawer to represent chat history
+
+        // Drawer to represent chat history
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -69,7 +80,7 @@ class _ChatBotAppState extends State<ChatBotApp> {
                 child: Text(
                   'Chat History',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: isDarkMode ? Colors.white : Colors.black,
                     fontSize: 24,
                   ),
                 ),
@@ -85,23 +96,6 @@ class _ChatBotAppState extends State<ChatBotApp> {
         ),
 
         body: isDarkMode ? DarkPage() : LightPage(),
-        
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Align(
-          alignment: Alignment.bottomLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  isDarkMode = !isDarkMode; // Toggle mode on click
-                });
-              },
-              mini: true,
-              child: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-            ),
-          ),
-        ),
       ),
     );
   }

@@ -19,72 +19,67 @@ class _DarkPageState extends State<DarkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[800],
-      body: Row(  
+      backgroundColor: Colors.grey[850], // Darker background for dark mode
+      body: Column(
         children: [
-          
-          Container(
-            width: MediaQuery.of(context).size.width * 0.2, 
-            color: Colors.grey[700],
-            child: ListView.builder(
+          Expanded(
+            child: Container(
               padding: EdgeInsets.all(10),
-              itemCount: chatHistory.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    chatHistory[index],
-                    style: TextStyle(color: Colors.white), 
-                  ),
-                );
-              },
+              child: ListView.builder(
+                itemCount: chatHistory.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      chatHistory[index],
+                      style: TextStyle(color: Colors.white), // White text for dark mode
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-
-          // Right side for chat and input
-          Expanded(
+          Divider(height: 1, color: Colors.white54), // Divider with a lighter color for dark mode
+          Container(
+            color: Colors.grey[900], // Darker input container background
+            padding: EdgeInsets.all(8),
             child: Column(
               children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: ListView.builder(
-                      itemCount: chatHistory.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                            chatHistory[index],
-                            style: TextStyle(color: Colors.black87),
-                          ),
-                        );
+                // TextField for input
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: messageController,
+                        style: TextStyle(color: Colors.white), // White input text
+                        decoration: InputDecoration(
+                          hintText: 'Start a new chat...',
+                          hintStyle: TextStyle(color: Colors.white54), // Lighter hint text
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        ),
+                        onSubmitted: addMessage,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.send, color: Colors.white),
+                      onPressed: () {
+                        if (messageController.text.isNotEmpty) {
+                          addMessage(messageController.text);
+                        }
                       },
                     ),
-                  ),
+                  ],
                 ),
-                Divider(height: 1),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: messageController,
-                          decoration: InputDecoration(
-                            hintText: 'Start a new chat...',
-                            border: InputBorder.none,
-                          ),
-                          onSubmitted: addMessage,
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () {
-                          if (messageController.text.isNotEmpty) {
-                            addMessage(messageController.text);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+                SizedBox(height: 10),
+
+                // Sentences below the prompting box
+                Text(
+                  "Generated content may be inaccurate or false",
+                  style: TextStyle(color: Colors.white54, fontSize: 14), // Lighter text for dark mode
+                ),
+                Text(
+                  "Made with ❤️ by AI Community IIT Bombay",
+                  style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
               ],
             ),
